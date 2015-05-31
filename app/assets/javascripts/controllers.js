@@ -57,24 +57,10 @@ return plotLines;
   				data = $scope.chartdata.data;
 				// start 
 				var fdata=[];
-				data.series.forEach(function(value){
-					var temp = _.values(value);
-					temp[0] = temp[0] * 1000 + 5*60*60*1000+30*60*1000;
-					fdata.push(temp);
-				})
-				//fdata.push()
-				var high = parseFloat($scope.historyData.high_price);
-				var low = parseFloat($scope.historyData.low_price);
-				var open = parseFloat($scope.historyData.open_price);
 
-				var plotLines = cammarila_points_calculate(high,low,open,$scope.historyData);
-				
-				$('.chart-container').highcharts('StockChart', {
+				var stock_chart_options = {
 					title: {
 						text: data.meta['Company-Name']
-					},
-					yAxis : {
-						plotLines : plotLines
 					},
 					rangeSelector : {
 						buttons : [{
@@ -110,7 +96,24 @@ return plotLines;
 						}		            	
 					}
 
-				});
+				};
+
+				if(data.series){
+					data.series.forEach(function(value){
+						var temp = _.values(value);
+						temp[0] = temp[0] * 1000 + 5*60*60*1000+30*60*1000;
+						fdata.push(temp);
+					})
+					//fdata.push()
+					var high = parseFloat($scope.historyData.high_price);
+					var low = parseFloat($scope.historyData.low_price);
+					var open = parseFloat($scope.historyData.open_price);
+
+					var plotLines = cammarila_points_calculate(high,low,open,$scope.historyData);
+
+					stock_chart_options.yAxis = { plotLines : plotLines }
+				}
+				$('.chart-container').highcharts('StockChart', stock_chart_options);
 			})
 		//end
 	}]);

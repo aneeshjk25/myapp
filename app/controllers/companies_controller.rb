@@ -3,14 +3,7 @@ class CompaniesController < ApplicationController
 		companies = Company.all
 		render json: companies
 	end
-	# def bounce
-	# 	require 'net/http'
-	# 	url = params[:url]
-	# 	callback = params[:callback]
-	# 	uri = URI.parse(url+'?callback='+callback);
-	# 	jsonp = Net::HTTP.get(uri)
-	# 	render plain: jsonp
-	# end
+
 	def bounce
 		data = getJson params[:url]
 		render json: data
@@ -45,7 +38,14 @@ class CompaniesController < ApplicationController
 		require 'csv'    
 		filename = 'props/companies.csv'
 		CSV.foreach(filename, :headers => true) do |row|
-		  Company.create!(row.to_hash)
+			logger.debug "#{row.inspect}"
+			yahoo_symbol =  row['yahoo_symbol']
+			company = Company.find_by yahoo_symbol: yahoo_symbol
+			if ( company == nil)
+				  Company.create!(row.to_hash)
+			else
+				logger.info "Company already exists"
+			end
 		end
 		render nothing: true
 	end

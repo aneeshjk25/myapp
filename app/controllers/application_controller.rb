@@ -19,7 +19,12 @@ class ApplicationController < ActionController::Base
 	hash = jsonp.gsub!(/\)$/, '') # removes the end of the callback function
 	#jsonp.gsub!(/(\w+):/, '"\1":')
 	if parse
-		hash = JSON.parse(jsonp)
+		begin
+			hash = JSON.parse(jsonp)
+		rescue Exception => e
+			hash = false
+			logger.debug "JSON pase failed for "+url
+		end
 	end
 	hash
   end

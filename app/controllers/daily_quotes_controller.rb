@@ -12,7 +12,9 @@ class DailyQuotesController < ApplicationController
 			#end company data
 
 			# import quotes
-			_import quotes,company
+			unless quotes== false
+				_import quotes,company
+			end
 		end
 
 		#render json: companies
@@ -21,16 +23,18 @@ class DailyQuotesController < ApplicationController
 
 	private
 		def _import collection_of_quotes,company
+			unless collection_of_quotes['series'] == nil
 				collection_of_quotes['series'].each do |series|
-				daily_quote = DailyQuote.new()
-				daily_quote.company_id 	= company.id
-				daily_quote.quote_date 	= series['Date']
-				daily_quote.low_price 	= series['low']
-				daily_quote.high_price 	= series['high']
-				daily_quote.open_price 	= series['open']
-				daily_quote.close_price = series['close']
-				daily_quote.volume 		= series['volume']
-				daily_quote.save
+					daily_quote = DailyQuote.new()
+					daily_quote.company_id 	= company.id
+					daily_quote.quote_date 	= series['Date']
+					daily_quote.low_price 	= series['low']
+					daily_quote.high_price 	= series['high']
+					daily_quote.open_price 	= series['open']
+					daily_quote.close_price = series['close']
+					daily_quote.volume 		= series['volume']
+					daily_quote.save
+				end
 			end
 		end
 end

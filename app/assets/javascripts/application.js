@@ -13,4 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require angular/angular
+//= require angular-route/angular-route
+//= require moment/moment
+//= require underscore/underscore
+//= require highcharts/highstock
 //= require_tree .

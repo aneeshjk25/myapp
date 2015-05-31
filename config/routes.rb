@@ -5,8 +5,17 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+   root 'frontend#index'
 
+   scope '/api' do
+    get '/companies/import'        => 'companies#import'
+    get '/companies/bounce'        => 'companies#bounce'
+    get '/companies/intraday_data/:symbol',to: 'companies#intraday_data' ,constraints: { symbol: /[^\/]+/}
+    get '/companies/cammarilla_data/:symbol',to: 'companies#cammarilla_data',constraints: { symbol: /[^\/]+/}
+
+    get '/daily_quotes/import'     => 'daily_quotes#import'
+    resources :companies 
+   end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

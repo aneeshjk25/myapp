@@ -1,2 +1,9 @@
-<h1>Frontend#index</h1>
-<p>Find me in app/views/frontend/index.html.erb</p>
+  <div ng-app="intradayApp" ng-controller="menuController" >
+    <button class="btn btn-xs" ng-click="showCompany = !showCompany" ng-class=" (showCompany ? 'btn-danger' : 'btn-primary') ">Show Companies</button>
+    <ul class="menu" ng-show="showCompany" >
+      <li ng-repeat="company in companies"><a ng-href="#/companies/{{company.yahoo_symbol}}" >{{company.company_name}}</a></li>
+    </ul>
+     <div class="view-container ">
+        <div ng-view class="view-frame"></div>
+      </div>
+  </div>    

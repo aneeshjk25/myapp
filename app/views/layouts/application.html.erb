@@ -6,7 +6,7 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
   <script type="text/javascript">
-  var DOMAIN = "http://localhost:3000/api/"
+  var DOMAIN = "<%= request.base_url %>/api/"
   </script>
 </head>
 <body>

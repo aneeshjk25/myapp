@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     get '/companies/bounce'        => 'companies#bounce'
     get '/companies/intraday_data/:symbol',to: 'companies#intraday_data' ,constraints: { symbol: /[^\/]+/}
     get '/companies/cammarilla_data/:symbol',to: 'companies#cammarilla_data',constraints: { symbol: /[^\/]+/}
-
+    get '/companies/toggle_status/:symbol/:status',to: 'companies#toggle_status',constraints: { symbol: /[^\/]+/}
     get '/daily_quotes/import'     => 'daily_quotes#import'
     resources :companies 
    end

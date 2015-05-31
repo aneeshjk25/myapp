@@ -15,6 +15,19 @@ class CompaniesController < ApplicationController
 		data = getJson params[:url]
 		render json: data
 	end
+	def toggle_status
+		symbol  = params[:symbol]
+		company = Company.find_by yahoo_symbol: symbol
+		logger.debug " #{params[:status]}"
+		if params[:status] == 'active'
+			logger.debug " in active"
+			company.active!
+		else
+			logger.debug " in in-active"
+			company.inactive!
+		end
+		render plain: "status set to #{company.status}"
+	end
 	def intraday_data
 		symbol = params[:symbol]
 		remote_url = "http://chartapi.finance.yahoo.com/instrument/1.0/#{symbol}/chartdata;type=quote;range=1d/json"

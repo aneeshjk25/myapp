@@ -37,23 +37,4 @@ class CompaniesController < ApplicationController
 		quotes = company.quotes.order('quote_date DESC').find_by('quote_date < ? AND quote_type = ?',Date.today,Quote.quote_types[:daily])
 		render json: quotes
 	end
-=begin
-
-	def import
-		require 'csv'    
-		filename = 'props/companies.csv'
-		CSV.foreach(filename, :headers => true) do |row|
-			logger.debug "#{row.inspect}"
-			yahoo_symbol =  row['yahoo_symbol']
-			company = Company.find_by yahoo_symbol: yahoo_symbol
-			if ( company == nil)
-				  Company.create!(row.to_hash)
-			else
-				logger.info "Company already exists"
-			end
-		end
-		render nothing: true
-	end
-=end
-
 end

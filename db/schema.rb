@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150531134053) do
+ActiveRecord::Schema.define(version: 20150607091020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 20150531134053) do
     t.integer  "status",       default: 0, null: false
   end
 
-  create_table "daily_quotes", force: :cascade do |t|
+  create_table "quotes", force: :cascade do |t|
     t.integer  "company_id"
     t.date     "quote_date"
     t.float    "open_price"
@@ -39,8 +39,9 @@ ActiveRecord::Schema.define(version: 20150531134053) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.integer  "status",      default: 0, null: false
+    t.integer  "quote_type",  default: 0, null: false
   end
 
-  add_index "daily_quotes", ["company_id"], name: "index_daily_quotes_on_company_id", using: :btree
+  add_index "quotes", ["company_id"], name: "index_quotes_on_company_id", using: :btree
 
 end

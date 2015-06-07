@@ -1,4 +1,4 @@
-class DailyQuotesController < ApplicationController
+class QuotesController < ApplicationController
 	def import
 		companies = Company.active
 		# companies = Company.find([1,10])
@@ -25,18 +25,18 @@ class DailyQuotesController < ApplicationController
 		def _import collection_of_quotes,company
 			unless collection_of_quotes['series'] == nil
 				collection_of_quotes['series'].each do |series|
-					daily_quote = DailyQuote.find_by("quote_date = '?' AND company_id = ? ",series['Date'],company.id)
-					if daily_quote == nil
+					quote = Quote.find_by("quote_date = '?' AND company_id = ? ",series['Date'],company.id)
+					if quote == nil
 						# save new quote
-						daily_quote = DailyQuote.new()
-						daily_quote.company_id 	= company.id
-						daily_quote.quote_date 	= series['Date']
-						daily_quote.low_price 	= series['low']
-						daily_quote.high_price 	= series['high']
-						daily_quote.open_price 	= series['open']
-						daily_quote.close_price = series['close']
-						daily_quote.volume 		= series['volume']
-						daily_quote.save
+						quote = Quote.new()
+						quote.company_id 	= company.id
+						quote.quote_date 	= series['Date']
+						quote.low_price 	= series['low']
+						quote.high_price 	= series['high']
+						quote.open_price 	= series['open']
+						quote.close_price = series['close']
+						quote.volume 		= series['volume']
+						quote.save
 					else
 						#quote already exists, do nothing
 					end

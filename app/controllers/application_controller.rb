@@ -7,8 +7,9 @@ class ApplicationController < ActionController::Base
 
 
   # function expect url which responds with jsonp data
-  # it appends the name 'callback' to url and return json strin
-  # passing true return hash object
+  # it appends the name 'callback' to url and return json string
+  # passing true returns hash object
+=begin
   def getJson url, parse = false
   	require 'net/http'
 	require 'json'
@@ -23,11 +24,13 @@ class ApplicationController < ActionController::Base
 			hash = JSON.parse(jsonp)
 		rescue Exception => e
 			hash = false
-			logger.debug "JSON pase failed for "+url
+			logger.debug "JSON parse failed for "+url
 		end
 	end
 	hash
   end
+=end
+
 
   
 

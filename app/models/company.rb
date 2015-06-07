@@ -1,4 +1,4 @@
 class Company < ActiveRecord::Base
-	has_many :daily_quotes
+	has_many :quotes
 	enum status: [:active,:inactive]
 end

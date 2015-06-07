@@ -8,12 +8,10 @@ Rails.application.routes.draw do
    root 'frontend#index'
 
    scope '/api' do
-    get '/companies/import'        => 'companies#import'
     get '/companies/bounce'        => 'companies#bounce'
     get '/companies/intraday_data/:symbol',to: 'companies#intraday_data' ,constraints: { symbol: /[^\/]+/}
     get '/companies/cammarilla_data/:symbol',to: 'companies#cammarilla_data',constraints: { symbol: /[^\/]+/}
     get '/companies/toggle_status/:symbol/:status',to: 'companies#toggle_status',constraints: { symbol: /[^\/]+/}
-    get '/quotes/import'     => 'quotes#import'
     resources :companies 
    end
   # Example of regular route:

@@ -82,6 +82,7 @@ class Import
 						quote.open_price 	= series['open']
 						quote.close_price = series['close']
 						quote.volume 		= series['volume']
+						quote.quote_type   = :daily
 						quote.save
 					else
 						#quote already exists, do nothing

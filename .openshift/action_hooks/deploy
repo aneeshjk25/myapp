@@ -1,0 +1,15 @@
+#!/bin/bash
+
+pushd ${OPENSHIFT_REPO_DIR}
+echo "Running migrations"
+bundle exec rake db:migrate RAILS_ENV="production"
+
+if [ -d "log/rake" ]
+then
+        echo "Rake log directory exists"
+else
+        echo "! Rake log directory does not exists"
+        echo "Creating directory"
+        mkdir log/rake
+fi
+popd 

@@ -1,4 +1,5 @@
 class Import
+	include Utilities
 	attr_reader :log
 	def initialize
 		@log = ActiveSupport::Logger.new('log/rake/import.log')
@@ -23,14 +24,13 @@ class Import
 				print "Company already exists\n"
 			end
 		end
-
 	end
 
 	def quotes
 		companies = Company.active
 		companies.each do |company|
-			@log.info "Statting for : #{company.company_name}\n"
-			print "Statting for : #{company.company_name}\n"
+			@log.info "Starting for : #{company.company_name}\n"
+			print "Starting for : #{company.company_name}\n"
 			# fetch company data
 			remote_url = 'http://chartapi.finance.yahoo.com/instrument/1.0/'+company.yahoo_symbol+'/chartdata;type=quote;range=1m/json/'
 			quotes = getJson remote_url,true
@@ -44,30 +44,21 @@ class Import
 
 	end
 
-  # function expect url which responds with jsonp data
-  # it appends the name 'callback' to url and return json string
-  # passing true returns hash object
-	def getJson url, parse = false
-	  	require 'net/http'
-		require 'json'
-		url = url+'?callback=callback'
-		uri = URI.parse(url)
-		jsonp = Net::HTTP.get(uri)
-		jsonp.gsub!(/^.*callback\(/, '') # removes the comment and callback function from the start of the string
-		hash = jsonp.gsub!(/\)$/, '') # removes the end of the callback function
-		#jsonp.gsub!(/(\w+):/, '"\1":')
-		if parse
-			begin
-				hash = JSON.parse(jsonp)
-			rescue Exception => e
-				hash = false
-				@log.debug "JSON parse failed for "+url
-			end
+	def historical_intraday_data
+		require 'csv'
+		url = "http://www.google.com/finance/getprices?q=ACC&x=NSE&i=60&p=2d&f=d,c,o,h,l"
+		csv_data = _get url
+		@log.info csv_data
+		CSV.foreach(csv_data.rstrip) do |row|
+			print "row"
 		end
-		hash
-	end
+	end	
+
+
+	
 
 	private
+		
 		def _quotes collection_of_quotes,company
 			unless collection_of_quotes['series'] == nil
 				collection_of_quotes['series'].each do |series|
@@ -83,8 +74,10 @@ class Import
 						quote.close_price = series['close']
 						quote.volume 		= series['volume']
 						quote.quote_type   = :daily
+						@log.info "saving for #{company.id} and date #{series['Date']} "
 						quote.save
 					else
+						@log.info "quote already exists for #{company.id} and date #{series['Date']}"
 						#quote already exists, do nothing
 					end
 					

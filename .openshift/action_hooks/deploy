@@ -15,6 +15,4 @@ fi
 echo "Starting Import scripts"
 echo "Running daily quotes import"
 bundle exec rake import:quotes RAILS_ENV="production"
-echo "Running intrday quotes import"
-bundle exec rake import:hid RAILS_ENV="production"
 popd 

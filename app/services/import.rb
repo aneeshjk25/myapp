@@ -45,24 +45,63 @@ class Import
 	end
 
 	def historical_intraday_data
-		require 'csv'
-		url = "http://www.google.com/finance/getprices?q=ACC&x=NSE&i=60&p=2d&f=d,c,o,h,l"
-		csv_data = _get url
-		@log.info csv_data
-		CSV.foreach(csv_data.rstrip) do |row|
-			print "row"
-		end
+
+		companies = Company.active
+		companies.each do |company|
+			@log.info "Starting for : #{company.company_name}\n"
+			print "Starting for : #{company.company_name}\n"
+			url = "http://www.google.com/finance/getprices?q="+company.symbol+"&x=NSE&i=60&p=15d&f=d,c,o,h,l,v"
+			data = csv_to_json_remote_stub url
+			data = replace_time_increments_with_time data
+			save_data data,company
+		end	
+		
+		
+
 	end	
 
-
-	
-
 	private
-		
+
+		def save_data data,company
+			data.each do |row|
+				quote = Quote.find_by("quote_timestamp = ? AND company_id = ? ",Time.at(row['timestamp']).to_datetime,company.id)
+				if quote == nil
+					quote = Quote.new()
+					quote.company_id 	= company.id
+					quote.quote_date 	= row['date']
+					quote.low_price 	= row['low']
+					quote.high_price 	= row['high']
+					quote.open_price 	= row['open']
+					quote.close_price 	= row['close']
+					quote.volume 		= row['volume']
+					quote.quote_timestamp 		= Time.at(row['timestamp']).to_datetime
+					quote.quote_type    = :minute
+					@log.info "saving for  and date #{row['Date']} "
+					quote.save
+				else
+					#do nothing
+				end
+			end					
+		end
+
+		def replace_time_increments_with_time data
+			return_data = []
+			marker = nil
+			data.each do |row|
+				if is_number?(row['date'])
+					row['timestamp'] = marker + (row['date'].to_f * 60)
+				else
+					 marker = row['date'].scan(/\d+/).first.to_f
+					 row['timestamp'] = marker
+				end
+				row['date'] = Time.at(row['timestamp']).to_date
+			end
+			data
+		end
 		def _quotes collection_of_quotes,company
 			unless collection_of_quotes['series'] == nil
 				collection_of_quotes['series'].each do |series|
-					quote = Quote.find_by("quote_date = '?' AND company_id = ? ",series['Date'],company.id)
+					quote = Quote.find_by("quote_date = '?' AND company_id = ? AND quote_type = '?' ",series['Date'],company.id,Quote.quote_types[:daily])
 					if quote == nil
 						# save new quote
 						quote = Quote.new()

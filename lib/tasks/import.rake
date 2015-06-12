@@ -1,4 +1,5 @@
 namespace :import do
+	
 	desc "Import company from csv file"
 	task :companies => :environment do
 		import = Import.new

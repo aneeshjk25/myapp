@@ -50,7 +50,7 @@ class Import
 		companies.each do |company|
 			@log.info "Starting for : #{company.company_name}\n"
 			print "Starting for : #{company.company_name}\n"
-			url = "http://www.google.com/finance/getprices?q="+company.symbol+"&x=NSE&i=60&p=2d&f=d,c,o,h,l,v"
+			url = "http://www.google.com/finance/getprices?q="+company.symbol+"&x=NSE&i=60&p=15d&f=d,c,o,h,l,v"
 			data = csv_to_json_remote_stub url
 			data = replace_time_increments_with_time data
 			save_data data,company

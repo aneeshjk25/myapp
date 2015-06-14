@@ -5,9 +5,14 @@ class Import
 		@log = ActiveSupport::Logger.new('log/rake/import.log')
 	end
 
+	def write_to_log message,output_to_screen = false
+		if output_to_screen then print message+"\n" end
+		@log.info message+"\n"
+	end
+
 	def companies
 		start_time = Time.now
-		@log.info "Task started at #{start_time}"
+		write_to_log "Task started at #{start_time}"
 
 
 		require 'csv'    
@@ -16,12 +21,10 @@ class Import
 			yahoo_symbol =  row['yahoo_symbol']
 			company = Company.find_by yahoo_symbol: yahoo_symbol
 			if ( company == nil)
-				print "Creating company #{row.company_name}\n"
-				@log.info "Creating company #{row.company_name}\n"
+				write_to_log "Creating company #{row.company_name}",true
 				Company.create!(row.to_hash)
 			else
-				@log.warn "Company already exists\n"
-				print "Company already exists\n"
+				write_to_log "Company already exists",true
 			end
 		end
 	end
@@ -29,15 +32,16 @@ class Import
 	def quotes
 		companies = Company.active
 		companies.each do |company|
-			@log.info "Starting for : #{company.company_name}\n"
-			print "Starting for : #{company.company_name}\n"
+			write_to_log "Starting fetch for : #{company.company_name}",true
 			# fetch company data
 			remote_url = 'http://chartapi.finance.yahoo.com/instrument/1.0/'+company.yahoo_symbol+'/chartdata;type=quote;range=1m/json/'
+			write_to_log "Starting data processing for : #{company.company_name}",true
 			quotes = getJson remote_url,true
 			#end company data
 
 			# import quotes
 			unless quotes== false
+				write_to_log "Starting data insertion into db for : #{company.company_name}",true
 				_quotes quotes,company
 			end
 		end
@@ -48,20 +52,26 @@ class Import
 
 		companies = Company.active
 		companies.each do |company|
-			@log.info "Starting for : #{company.company_name}\n"
-			print "Starting for : #{company.company_name}\n"
+			write_to_log "Starting for : #{company.company_name}",true
 			url = "http://www.google.com/finance/getprices?q="+company.symbol+"&x=NSE&i=60&p=15d&f=d,c,o,h,l,v"
+			write_to_log "Starting data processing for : #{company.company_name}",true
 			data = csv_to_json_remote_stub url
 			data = replace_time_increments_with_time data
-			save_data data,company
+			write_to_log "Starting data insertion into db  for : #{company.company_name}",true
+			save_data_stub data,company
 		end	
-		
-		
-
 	end	
 
 	private
-
+		def save_data_stub data,company
+			data.each do |date,date_group|
+				quote_count = Quote.where(" company_id = ? AND quote_type = ? AND DATE(quote_date) = ? ",company.id, Quote.quote_types[:minute]  ,date ).count
+				unless quote_count == date_group.count
+					save_data date_group,company
+				end
+			end
+			
+		end
 		def save_data data,company
 			data.each do |row|
 				quote = Quote.find_by("quote_timestamp = ? AND company_id = ? ",Time.at(row['timestamp']).to_datetime,company.id)
@@ -76,7 +86,7 @@ class Import
 					quote.volume 		= row['volume']
 					quote.quote_timestamp 		= Time.at(row['timestamp']).to_datetime
 					quote.quote_type    = :minute
-					@log.info "saving for  and date #{row['Date']} "
+					write_to_log "saving for  and date #{row['Date']} "
 					quote.save
 				else
 					#do nothing
@@ -85,7 +95,7 @@ class Import
 		end
 
 		def replace_time_increments_with_time data
-			return_data = []
+			return_data = Hash.new
 			marker = nil
 			data.each do |row|
 				if is_number?(row['date'])
@@ -95,8 +105,12 @@ class Import
 					 row['timestamp'] = marker
 				end
 				row['date'] = Time.at(row['timestamp']).to_date
+				if return_data[row['date']] == nil
+					return_data[row['date']] = []
+				end
+				return_data[row['date']] << row
 			end
-			data
+			return_data
 		end
 		def _quotes collection_of_quotes,company
 			unless collection_of_quotes['series'] == nil
@@ -113,10 +127,10 @@ class Import
 						quote.close_price = series['close']
 						quote.volume 		= series['volume']
 						quote.quote_type   = :daily
-						@log.info "saving for #{company.id} and date #{series['Date']} "
+						write_to_log "saving for #{company.id} and date #{series['Date']} "
 						quote.save
 					else
-						@log.info "quote already exists for #{company.id} and date #{series['Date']}"
+						write_to_log "quote already exists for #{company.id} and date #{series['Date']}"
 						#quote already exists, do nothing
 					end
 					

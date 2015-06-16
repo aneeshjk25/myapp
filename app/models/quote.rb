@@ -17,7 +17,7 @@ class Quote < BaseModel
 		Quote.order('quote_date DESC').select(:quote_date).where(quote_type: Quote.quote_types[:minute]).distinct
 	end
 
-	def self.get_by_date date
-		Quote.find_by(quote_date: date)
+	def self.get_by_date date,company_id
+		Quote.find_by(quote_date: date,company_id: company_id,quote_type: Quote.quote_types[:daily])
 	end	
 end

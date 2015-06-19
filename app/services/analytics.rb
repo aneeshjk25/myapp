@@ -7,9 +7,7 @@ class Analytics
 
 	def bull_report
 		companies = Company.active
-		#companies = Company.where(symbol: 'BPCl')
 		dates 	  = Quote.get_distinct_dates
-		count = 1
 		dates.each do |date|
 			best_performing_number = 0
 			best_performing_stock  = nil
@@ -37,10 +35,10 @@ class Analytics
 						if ( (highest_quote.high_price < day_quote.high_price) )
 							# now calculate percentage rise
 							percentage_rise = percentage_rise (highest_quote.high_price,day_quote.high_price)
-							if percentage_rise > best_performing_number
+							#if percentage_rise > best_performing_number
 								best_performing_number = percentage_rise
 								best_performing_stock  = company
-							end
+							#end
 						# no price appreciation , after being the best performing till interval
 						else
 							# do something here

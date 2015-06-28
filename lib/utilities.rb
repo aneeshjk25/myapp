@@ -30,7 +30,7 @@ module Utilities
 
 	def csv_to_json_remote_stub url
 		response = _get url
-		csv_to_json response,%w(date close open high low volume)
+		csv_to_json response,%w(date close high low open volume)
 	end
 
 

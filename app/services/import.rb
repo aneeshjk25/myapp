@@ -50,9 +50,9 @@ class Import
 
 	def historical_intraday_data
 		require 'thread/pool'
-		pool = Thread.pool(4)
+		pool = Thread.pool(5)
 
-		companies = Company.active.limit(10)
+		companies = Company.active
 		companies.each do |company|
 			pool.process{
 				write_to_log "Starting for : #{company.company_name}",true

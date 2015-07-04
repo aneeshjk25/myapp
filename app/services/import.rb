@@ -49,12 +49,12 @@ class Import
 	end
 
 	def historical_intraday_data
-		require 'thread/pool'
-		pool = Thread.pool(5)
+		require 'thread/process'
 
 		companies = Company.active
+		processes = []
 		companies.each do |company|
-			pool.process{
+			processes << Process.fork{
 				write_to_log "Starting for : #{company.company_name}",true
 				url = "http://www.google.com/finance/getprices?q="+company.symbol+"&x=NSE&i=60&p=15d&f=d,c,o,h,l,v"
 				write_to_log "Starting data processing for : #{company.company_name}",true
@@ -64,9 +64,7 @@ class Import
 				save_data_stub data,company
 			}
 		end	
-
-		pool.shutdown
-
+		Process.waitall
 	end	
 
 	private

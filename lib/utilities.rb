@@ -16,7 +16,6 @@ module Utilities
 				hash = JSON.parse(jsonp)
 			rescue Exception => e
 				hash = false
-				@log.debug "JSON parse failed for "+url
 			end
 		end
 		hash

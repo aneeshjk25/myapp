@@ -19,4 +19,12 @@ class WorstPerformance < StockPerformance
 		price_fall = fall_amount - amount
 		percentage_fall = price_fall/amount*100.0
 	end	
+
+	def get_performing_quote quote_type,date,company_id
+		Quote.bottom quote_type,date,company_id
+	end
+
+	def get_performing_quote_remote data
+		data.bottom
+	end
 end

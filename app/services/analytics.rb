@@ -4,6 +4,17 @@ class Analytics
 			price_jump = rise_amount - amount
 			percentage_rise = price_jump/amount*100.0
 	end	
+
+	def self.day_report
+		companies = Company.active
+		date = Quote.new
+		date.quote_date  = Date.today
+		best_performance = BestPerformance.new(date,companies)
+		best_performance.run(true,false).to_print()
+		worst_performance = WorstPerformance.new(date,companies)
+		worst_performance.run(true,false).to_print()
+
+	end
 	def self.cumulative_report
 		# get all active companies
 		companies = Company.active

@@ -35,10 +35,10 @@ class StockPerformance
 			# no price appreciation , after being the best performing till interval
 			else
 				# do something here
-				print "failure::"
+				#print "failure::#{company.company_name}\n"
 				@number = 0
-				@stock = Object.new
-				@stock.company_name = 'NA'
+				@stock = Company.new
+				@stock.company_name = 'Stock did now appreciate'
 			end						
 		end
 	end

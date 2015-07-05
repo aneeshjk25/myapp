@@ -4,7 +4,21 @@ class Analytics
 			price_jump = rise_amount - amount
 			percentage_rise = price_jump/amount*100.0
 	end	
+	def self.cumulative_report
+		# get all active companies
+		companies = Company.active
+		# get all distinct dates, for which quote date day wise is set
+		dates 	  = Quote.get_distinct_dates
 
+		# for every day
+		dates.each do |date|
+			best_performance = BestPerformance.new(date,companies)
+			best_performance.run().to_print()
+			worst_performance = WorstPerformance.new(date,companies)
+			worst_performance.run().to_print()
+			print "*********************************************************************************************\n"
+		end
+	end
 	def bull_report
 
 		# get all active companies
@@ -30,7 +44,7 @@ class Analytics
 				if highest_quote != nil && day_quote != nil
 
 					# price has appreciated over open
-					if day_quote.open_price <= highest_quote.high_price
+					if highest_quote.high_price >= day_quote.open_price
 						# the the increase
 						percentage_rise = percentage_rise day_quote.open_price,highest_quote.high_price
 						#if stock is best performing save it

@@ -1,15 +1,15 @@
 #!/bin/bash
 
 
-pushd ${OPENSHIFT_REPO_DIR}
-hour=$(date '+%H')
-if [ hour != 21]
-then
-        exit
-else
-  	"starting hid cron" >> cron.log
-	bundle exec rake import:hid RAILS_ENV="production" >> cron.log
-fi
+# pushd ${OPENSHIFT_REPO_DIR}
+# hour=$(date '+%H')
+# if [ hour != 21]
+# then
+#         exit
+# else
+#   	"starting hid cron" >> cron.log
+# 	bundle exec rake import:hid RAILS_ENV="production" >> cron.log
+# fi
 
-popd 
+# popd 
 

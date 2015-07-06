@@ -4,4 +4,14 @@ namespace :analytics do
 		analytics = Analytics.new
 		analytics.bull_report
 	end
+
+	desc "Cumulative Report"
+	task :cumulative_report => :environment do
+		Analytics.cumulative_report
+	end
+
+	desc "Temp"
+	task :temp => :environment do
+		Analytics.day_report
+	end
 end

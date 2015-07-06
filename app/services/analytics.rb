@@ -5,27 +5,63 @@ class Analytics
 			percentage_rise = price_jump/amount*100.0
 	end	
 
-	def bull_report
+	def self.day_report
 		companies = Company.active
+		date = Quote.new
+		date.quote_date  = Date.today
+		best_performance = BestPerformance.new(date,companies)
+		best_performance.run(true,false).to_print()
+		worst_performance = WorstPerformance.new(date,companies)
+		worst_performance.run(true,false).to_print()
+
+	end
+	def self.cumulative_report
+		# get all active companies
+		companies = Company.active
+		# get all distinct dates, for which quote date day wise is set
 		dates 	  = Quote.get_distinct_dates
+
+		# for every day
 		dates.each do |date|
-			best_performing_number = 0
-			best_performing_stock  = nil
-			best_performing_number_till_interval = 0
-			best_performing_stock_till_interval = nil
+			best_performance = BestPerformance.new(date,companies)
+			best_performance.run().to_print()
+			worst_performance = WorstPerformance.new(date,companies)
+			worst_performance.run().to_print()
+			print "*********************************************************************************************\n"
+		end
+	end
+	def bull_report
+
+		# get all active companies
+		companies = Company.active
+		# get all distinct dates, for which quote date day wise is set
+		dates 	  = Quote.get_distinct_dates
+
+		# for every day
+		dates.each do |date|
+			best_performing_number = 0    				# rise over highest interval,till the end of date
+			best_performing_stock  = nil 				# best performing stock, at the end of the day
+			best_performing_number_till_interval = 0	# best performing rise till interval
+			best_performing_stock_till_interval = nil 	# best performing stock till interval
+
+			#for every company
 			companies.each do |company|
+				# the minute quote which has the highest high till the interval
 				highest_quote = Quote.top Quote.quote_types[:minute],date.quote_date,company.id
+				# day quote
 				day_quote 	  = Quote.get_by_date date.quote_date,company.id
 
+				# if ony both are found
 				if highest_quote != nil && day_quote != nil
+
 					# price has appreciated over open
-					if day_quote.open_price <= highest_quote.high_price
-						#if stock is best performing save it
+					if highest_quote.high_price >= day_quote.open_price
+						# the the increase
 						percentage_rise = percentage_rise day_quote.open_price,highest_quote.high_price
+						#if stock is best performing save it
 						if percentage_rise > best_performing_number_till_interval 
 							best_performing_number_till_interval = percentage_rise
 							best_performing_stock_till_interval  = company
-							#print "Putting this for  #{date.quote_date} is #{best_performing_stock_till_interval.company_name}\n"
 						end
 					end
 
@@ -35,10 +71,8 @@ class Analytics
 						if ( (highest_quote.high_price < day_quote.high_price) )
 							# now calculate percentage rise
 							percentage_rise = percentage_rise (highest_quote.high_price,day_quote.high_price)
-							#if percentage_rise > best_performing_number
 								best_performing_number = percentage_rise
 								best_performing_stock  = company
-							#end
 						# no price appreciation , after being the best performing till interval
 						else
 							# do something here
@@ -49,9 +83,10 @@ class Analytics
 						end						
 					end
 
-				end
+				end # if ony both are found
 		
 			end # end company loop
+			# If a best performing stock is found till interval print it
 			unless best_performing_stock_till_interval == nil 
 				print "The best performing stock for interval #{date.quote_date} is #{best_performing_stock_till_interval.company_name} rise is #{best_performing_number_till_interval}\n"
 				print "The stock permormance #{date.quote_date} is #{best_performing_stock.company_name} rise is #{best_performing_number}\n\n"

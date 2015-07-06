@@ -26,5 +26,17 @@ module Mychartapp
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    #for sending emails
+    config.action_mailer.delivery_method = :smtp
+    # SMTP settings for gmail
+    config.action_mailer.smtp_settings = {
+     :address              => "smtp.gmail.com",
+     :port                 => 587,
+     :user_name            => 'aneesh.jose.kallarakkal@gmail.com',
+     :password             => 'yzh5erya8NpQ',
+     :authentication       => "plain",
+    :enable_starttls_auto => true
+    }
   end
 end

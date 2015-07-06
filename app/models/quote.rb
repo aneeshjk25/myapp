@@ -6,7 +6,13 @@ class Quote < BaseModel
 	def self.top quote_type,date,company_id
 		hour = 5
 		minute = 0
-		Quote.order('high_price DESC').find_by("quote_type = '?' AND  quote_date = ? AND company_id = ? AND DATE_PART('hour',quote_timestamp) = ? AND  DATE_PART('minute',quote_timestamp)  = ? ",quote_type,date,company_id,hour,minute)
+		Quote.order('high_price DESC').find_by("quote_type = '?' AND  quote_date = ? AND company_id = ? AND  ( DATE_PART('hour',quote_timestamp) <  ? OR DATE_PART('hour',quote_timestamp) = ? AND  DATE_PART('minute',quote_timestamp)  = ? )",quote_type,date,company_id,hour,hour,minute)
+	end
+
+	def self.bottom quote_type,date,company_id
+		hour = 5
+		minute = 0
+		Quote.order('low_price ASC').find_by("quote_type = '?' AND  quote_date = ? AND company_id = ? AND  ( DATE_PART('hour',quote_timestamp) <  ? OR DATE_PART('hour',quote_timestamp) = ? AND  DATE_PART('minute',quote_timestamp)  = ? ) ",quote_type,date,company_id,hour,hour,minute)
 	end
 
 	def self.day_top date,company_id

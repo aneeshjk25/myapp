@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
    root 'frontend#index'
-
+   get 'frontend/send_email' => 'frontend#send_email'
    scope '/api' do
     get '/companies/bounce'        => 'companies#bounce'
     get '/companies/intraday_data/:symbol',to: 'companies#intraday_data' ,constraints: { symbol: /[^\/]+/}

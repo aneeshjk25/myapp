@@ -3,12 +3,10 @@
 
 #pushd ${OPENSHIFT_REPO_DIR}
 hour=$(date '+%H')
-if [ $hour -gt 3 ] && [ $hour -lt 11 ];then
-      echo "  exit" 
+if [ $hour -gt 3 ] && [ $hour -lt 6 ];then
+	bundle exec rake analytics:pfind RAILS_ENV="production"
 else
-	echo "bree"
-	#exit
-	#bundle exec rake import:hid RAILS_ENV="production" >> cron.log
+	exit
 fi
 
 #popd 

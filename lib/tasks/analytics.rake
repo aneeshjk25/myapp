@@ -14,4 +14,9 @@ namespace :analytics do
 	task :temp => :environment do
 		Analytics.find_performer
 	end
+
+	desc " Will find the performer using yahoo quotes and alert the user using email"
+	task :pfind => :environment do
+		Analytics.find_performer
+	end
 end

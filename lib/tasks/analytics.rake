@@ -12,6 +12,6 @@ namespace :analytics do
 
 	desc "Temp"
 	task :temp => :environment do
-		Analytics.day_report
+		Analytics.find_performer
 	end
 end

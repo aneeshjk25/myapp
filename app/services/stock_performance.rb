@@ -1,5 +1,5 @@
 class StockPerformance
-	attr_reader :number,:stock,:number_till_interval,:stock_till_interval
+	attr_reader :number,:stock,:number_till_interval,:stock_till_interval,:verb,:adjective
 	def initialize(date,companies)
 		@date = date
 		@companies = companies
@@ -86,6 +86,15 @@ class StockPerformance
 			end
 		else
 		 	print "NA\n"
+		end
+	end
+
+	def notify
+		if stock_till_interval == nil
+			print " not sending"
+		else
+			print "sending"
+			AlertMailer.notify(self).deliver_now
 		end
 	end
 

@@ -40,7 +40,7 @@ class YahooQuotes
 					top = quote.high_price
 				end
 
-				if quote.low_price > bottom
+				if quote.low_price < bottom
 					@bottom = quote
 					bottom  = quote.low_price
 				end

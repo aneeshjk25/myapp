@@ -15,6 +15,17 @@ class Analytics
 		worst_performance.run(true,false).to_print()
 
 	end
+
+	def self.find_performer
+		companies = Company.active
+		date = Quote.new
+		date.quote_date  = Date.today
+		best_performance = BestPerformance.new(date,companies)
+		best_performance.run(true,false).notify()
+		worst_performance = WorstPerformance.new(date,companies)
+		worst_performance.run(true,false).notify()
+	end
+	
 	def self.cumulative_report
 		# get all active companies
 		companies = Company.active

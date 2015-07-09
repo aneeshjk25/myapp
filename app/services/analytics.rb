@@ -17,7 +17,7 @@ class Analytics
 	end
 
 	def self.find_performer
-		if ( Time.now.hour < 5 || Time.now.hour < 6 && Time.now.min < 5 )
+		if ( Time.now.hour > 23 || Time.now.hour < 6 && Time.now.min < 5 )
 			companies = Company.active
 			date = Quote.new
 			date.quote_date  = Date.today

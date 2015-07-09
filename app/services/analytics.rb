@@ -17,13 +17,15 @@ class Analytics
 	end
 
 	def self.find_performer
-		companies = Company.active
-		date = Quote.new
-		date.quote_date  = Date.today
-		best_performance = BestPerformance.new(date,companies)
-		best_performance.run(true,false).notify()
-		worst_performance = WorstPerformance.new(date,companies)
-		worst_performance.run(true,false).notify()
+		if ( Time.now.hour > 23 || Time.now.hour < 6 && Time.now.min < 5 )
+			companies = Company.active
+			date = Quote.new
+			date.quote_date  = Date.today
+			best_performance = BestPerformance.new(date,companies)
+			best_performance.run(true,false).notify()
+			worst_performance = WorstPerformance.new(date,companies)
+			worst_performance.run(true,false).notify()
+		end
 	end
 	
 	def self.cumulative_report

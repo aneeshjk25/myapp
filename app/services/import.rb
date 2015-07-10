@@ -89,7 +89,7 @@ class Import
 					quote.open_price 	= row['open']
 					quote.close_price 	= row['close']
 					quote.volume 		= row['volume']
-					quote.quote_timestamp 		= Time.at(row['timestamp']).to_datetime
+					quote.quote_timestamp 		= Time.at(row['timestamp']).in_time_zone.to_datetime
 					quote.quote_type    = :minute
 					write_to_log "saving for  and date #{row['Date']} "
 					quote.save
@@ -109,7 +109,7 @@ class Import
 					 marker = row['date'].scan(/\d+/).first.to_f
 					 row['timestamp'] = marker
 				end
-				row['date'] = Time.at(row['timestamp']).to_date
+				row['date'] = Time.at(row['timestamp']).in_time_zone.to_date
 				if return_data[row['date']] == nil
 					return_data[row['date']] = []
 				end

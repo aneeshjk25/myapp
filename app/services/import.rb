@@ -54,18 +54,27 @@ class Import
 		companies = Company.active
 		processes = []
 		companies.each do |company|
-			processes << Process.fork{
-				write_to_log "Starting for : #{company.company_name}",true
-				url = "http://www.google.com/finance/getprices?q="+company.symbol+"&x=NSE&i=60&p=15d&f=d,c,o,h,l,v"
-				write_to_log "Starting data processing for : #{company.company_name}",true
-				data = csv_to_json_remote_stub url
-				data = replace_time_increments_with_time data
-				write_to_log "Starting data insertion into db  for : #{company.company_name}",true
-				save_data_stub data,company
-			}
+			if Rails.env.production?
+				hid_actual(company)
+			else
+				processes << Process.fork{
+					hid_actual(company)
+				}
+			end
+			
 		end	
 		Process.waitall
 	end	
+
+	def hid_actual company
+		write_to_log "Starting for : #{company.company_name}",true
+		url = "http://www.google.com/finance/getprices?q="+company.symbol+"&x=NSE&i=60&p=15d&f=d,c,o,h,l,v"
+		write_to_log "Starting data processing for : #{company.company_name}",true
+		data = csv_to_json_remote_stub url
+		data = replace_time_increments_with_time data
+		write_to_log "Starting data insertion into db  for : #{company.company_name}",true
+		save_data_stub data,company
+	end
 
 	private
 		def save_data_stub data,company

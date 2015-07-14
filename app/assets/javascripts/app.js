@@ -6,8 +6,18 @@ var intradayApp = angular.module('intradayApp', [
   // 'intradayAnimations',
   'intradayControllers',
   // 'intradayFilters',
-  'CompanyServices'
+  'CompanyServices',
+  'restangular',
+  'ui.bootstrap',
+  'ui.bootstrap.datetimepicker',
+  'validation',
+  'validation.rule',
+  'tradeController',
+  'base-services',
+  'trade-services',
+  'company-services'
 ]);
+
 
 intradayApp.config(['$routeProvider',
   function($routeProvider) {
@@ -20,7 +30,27 @@ intradayApp.config(['$routeProvider',
         templateUrl: 'partials/chart.html',
         controller: 'CompaniesViewCtrl'
       }).
+      when('/trades/new',{
+        templateUrl: 'partials/trades/add-edit.html',
+        controller: 'TradeAddController'
+      }).
       otherwise({
         redirectTo: '/companies'
       });
   }]);
+intradayApp.config(['RestangularProvider','$validationProvider',function(RestangularProvider,$validationProvider){
+  RestangularProvider.setBaseUrl('/api');
+  $validationProvider.setErrorHTML(function (msg) {
+       return  "<label class=\"control-label has-error\">" + msg + "</label>";
+  });
+
+  angular.extend($validationProvider, {
+    validCallback: function (element){
+        $(element).parents('.form-group:first').removeClass('has-error');
+    },
+    invalidCallback: function (element) {
+        $(element).parents('.form-group:first').addClass('has-error');
+    }
+  });
+
+}]);

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150611190957) do
+ActiveRecord::Schema.define(version: 20150711120141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,8 +41,20 @@ ActiveRecord::Schema.define(version: 20150611190957) do
     t.integer  "status",          default: 0, null: false
     t.integer  "quote_type",      default: 0, null: false
     t.datetime "quote_timestamp"
+    t.string   "company_symbol"
   end
 
   add_index "quotes", ["company_id"], name: "index_quotes_on_company_id", using: :btree
+
+  create_table "trades", force: :cascade do |t|
+    t.string   "company_symbol"
+    t.integer  "trade_type",             null: false
+    t.integer  "reference"
+    t.integer  "trade_transaction_type"
+    t.decimal  "amount"
+    t.datetime "time_of_trade"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
 
 end

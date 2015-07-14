@@ -1,9 +1,9 @@
-class CompaniesController < ApplicationController
+class Api::CompaniesController < Api::BaseController
 	
-	def index
-		companies = Company.all
-		render json: companies
-	end
+	# def index
+	# 	companies = Company.all
+	# 	render json: companies
+	# end
 
 	def bounce
 		data = getJson params[:url]
@@ -37,4 +37,10 @@ class CompaniesController < ApplicationController
 		quotes = company.quotes.order('quote_date DESC').find_by('quote_date < ? AND quote_type = ?',Date.today,Quote.quote_types[:daily])
 		render json: quotes
 	end
+
+	def get_for_dropdown
+		companies = Company.get_for_dropdown(params[:search])
+		render json: companies
+	end
+
 end

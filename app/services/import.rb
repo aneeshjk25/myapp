@@ -92,6 +92,7 @@ class Import
 				if quote == nil
 					quote = Quote.new()
 					quote.company_id 	= company.id
+					quote.company_symbol= company.symbol
 					quote.quote_date 	= row['date']
 					quote.low_price 	= row['low']
 					quote.high_price 	= row['high']
@@ -134,6 +135,7 @@ class Import
 						# save new quote
 						quote = Quote.new()
 						quote.company_id 	= company.id
+						quote.company_symbol= company.symbol
 						quote.quote_date 	= series['Date']
 						quote.low_price 	= series['low']
 						quote.high_price 	= series['high']

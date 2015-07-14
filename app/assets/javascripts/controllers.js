@@ -120,16 +120,17 @@ return plotLines;
 //
 intradayControllers.controller('CompaniesListCtrl', ['$scope', '$routeParams', 'Company',
 	function($scope, $routeParams, Company) {
-		Company.list().then(function(response){
+		/*Company.list().then(function(response){
 			$scope.companies = response;
-		})
+		})*/
 	}]);
 
-intradayControllers.controller('menuController', ['$scope', '$routeParams', 'Company',
-	function($scope, $routeParams, Company) {
+intradayControllers.controller('menuController', ['$scope', '$routeParams', 'CompanyServices',
+	function($scope, $routeParams, CompanyServices) {
 		$scope.showCompany = false;
-		Company.list().then(function(response){
-			$scope.companies = response.data;
+		CompanyServices.getAll().then(function(response){
+			console.log(response);
+			$scope.companies = response.companies;
 		})
 	}]);
 

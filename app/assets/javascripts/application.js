@@ -18,4 +18,10 @@
 //= require moment/moment
 //= require underscore/underscore
 //= require highcharts/highstock
+//= require restangular/restangular
+//= require bootstrap-sprockets
+//= require angular-bootstrap/ui-bootstrap-tpls
+//= require angular-bootstrap-datetimepicker/src/js/datetimepicker
+//= require angular-validation/dist/angular-validation
+//= require angular-validation/dist/angular-validation-rule
 //= require_tree .

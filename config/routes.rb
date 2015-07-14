@@ -7,12 +7,14 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
    root 'frontend#index'
    get 'frontend/send_email' => 'frontend#send_email'
-   scope '/api' do
+   namespace :api do
     get '/companies/bounce'        => 'companies#bounce'
     get '/companies/intraday_data/:symbol',to: 'companies#intraday_data' ,constraints: { symbol: /[^\/]+/}
     get '/companies/cammarilla_data/:symbol',to: 'companies#cammarilla_data',constraints: { symbol: /[^\/]+/}
     get '/companies/toggle_status/:symbol/:status',to: 'companies#toggle_status',constraints: { symbol: /[^\/]+/}
-    resources :companies 
+    get '/companies/get-for-dropdown/:search', to: 'companies#get_for_dropdown',constraints: { search: /[^\/]+/}
+    resources :companies
+    resources  :trades 
    end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

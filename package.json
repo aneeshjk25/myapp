@@ -1,0 +1,22 @@
+{
+	"name": "My Chart app",
+	"version": "0.0.0",
+	"description": "My chart app",
+	"directories": {
+		"test": "test"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "readmeFilename": "README.md",
+	"author": "Aneesh Kallarakkal",
+
+   "devDependencies": {
+       "bower": "latest",
+	}
+}

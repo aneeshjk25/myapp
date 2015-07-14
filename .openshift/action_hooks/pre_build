@@ -2,7 +2,7 @@
 
 pushd ${OPENSHIFT_REPO_DIR}
 echo "Running npm "
-npm install
+sudo npm install -g bower
 echo "Running bower"
 bower install
 popd 

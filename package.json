@@ -1,5 +1,5 @@
 {
-	"name": "My Chart app",
+	"name": "My_Chart_app",
 	"version": "0.0.0",
 	"description": "My chart app",
 	"directories": {
@@ -17,6 +17,6 @@
 	"author": "Aneesh Kallarakkal",
 
    "devDependencies": {
-       "bower": "latest",
+       "bower": "latest"
 	}
 }

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+pushd ${OPENSHIFT_REPO_DIR}
+echo "Running npm "
+npm install
+echo "Running bower"
+bower install
+popd 

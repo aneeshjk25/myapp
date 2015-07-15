@@ -20,14 +20,14 @@ class YahooQuotes
 	end
 
 	def extract_till_interval data
-		hour = 5
-		minute = 0
+		hour = 4
+		minute = 30
 		result_set = []
 		top = 0 
 		bottom = 9999999
 		data.each do |q|
 			quote_timestamp = Time.at(q['Timestamp']).utc
-			if(quote_timestamp.hour < hour || (quote_timestamp.hour == hour && quote_timestamp.min == 0)) then
+			if(quote_timestamp.hour < hour || (quote_timestamp.hour == hour && quote_timestamp.min <= minute)) then
 				quote = Quote.new
 				quote.quote_timestamp = quote_timestamp
 				quote.low_price 	= q['low']

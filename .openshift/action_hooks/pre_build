@@ -1,9 +1,0 @@
-#!/bin/bash
-
-# pushd ${OPENSHIFT_REPO_DIR}
-# echo "Running npm "
-# sudo npm install -g bower
-# echo "Running bower"
-# bower install
-# popd 
-npm install -g bower

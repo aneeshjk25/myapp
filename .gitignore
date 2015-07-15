@@ -11,7 +11,7 @@
 /log/*
 !/log/.keep
 /tmp
-vendor/assets/components/
+#vendor/assets/components/
 # these should all be checked in to normalise the environment:
 .ruby-version
 .ruby-gemset

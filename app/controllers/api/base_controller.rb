@@ -1,8 +1,6 @@
-class Api::BaseController < ActionController::Base 
+class Api::BaseController < ApplicationController
 	def index
 		objects = controller_name.classify.constantize.all
-		#models = ActiveModel::ArraySerializer.new(objects,each_serializer: TradeSerializers)
-		#render json: models
 		render json: objects
 	end
 	def create

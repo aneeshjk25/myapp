@@ -12,7 +12,7 @@ namespace :analytics do
 
 	desc "Temp"
 	task :temp => :environment do
-		Analytics.find_performer
+		Analytics.day_report
 	end
 
 	desc " Will find the performer using yahoo quotes and alert the user using email"

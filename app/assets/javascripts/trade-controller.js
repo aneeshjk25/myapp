@@ -1,5 +1,5 @@
 var tradeController = angular.module('tradeController',[]);
-var tradeSaveController = function($scope,TradeServices,CompanyServices){
+var tradeSaveController = function($scope,$location,TradeServices,CompanyServices){
 	$scope.recordTradeTypes = [
 		{ trade_type : 0 , trade_name : 'Open'},
 		{ trade_type : 1 , trade_name : 'Close'}
@@ -28,14 +28,16 @@ var tradeSaveController = function($scope,TradeServices,CompanyServices){
 		var valid = form.$valid;
 		if(valid){
 			TradeServices.save(record).then(function(response){
-				
+				$location.path('companies/'+record.company.yahoo_symbol);
+			},function(response){
+				alert('failed');
 			})	
 		}
 	}
 }
-tradeController.controller('TradeAddController',['$scope','TradeServices','CompanyServices',function($scope,TradeServices,CompanyServices){
+tradeController.controller('TradeAddController',['$scope','$location','TradeServices','CompanyServices',function($scope,$location,TradeServices,CompanyServices){
 	angular.extend(this,new DateTimeController($scope));
-	angular.extend(this,new tradeSaveController($scope,TradeServices,CompanyServices));
+	angular.extend(this,new tradeSaveController($scope,$location,TradeServices,CompanyServices));
 	$scope.trade = {};
 }])
 

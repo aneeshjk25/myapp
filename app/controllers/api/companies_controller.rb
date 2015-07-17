@@ -1,10 +1,5 @@
 class Api::CompaniesController < Api::BaseController
 	
-	# def index
-	# 	companies = Company.all
-	# 	render json: companies
-	# end
-
 	def bounce
 		data = getJson params[:url]
 		render json: data

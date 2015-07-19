@@ -3,7 +3,8 @@
 
 pushd ${OPENSHIFT_REPO_DIR}
 hour=$(date '+%H')
-if [ $hour -gt 23 ] || [ $hour -lt 6 ];then
+# times in edt
+if [ $hour -ge 23 ] || [ $hour -le 6 ];then
 	bundle exec rake analytics:pfind RAILS_ENV="production"
 else
 	exit

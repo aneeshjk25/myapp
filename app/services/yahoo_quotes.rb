@@ -20,8 +20,8 @@ class YahooQuotes
 	end
 
 	def extract_till_interval data
-		hour = 4
-		minute = 30
+		hour = 5
+		minute = 0
 		result_set = []
 		top = 0 
 		bottom = 9999999

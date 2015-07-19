@@ -12,6 +12,11 @@ namespace :analytics do
 
 	desc "Temp"
 	task :temp => :environment do
+		Analytics.temp
+	end
+
+	desc "Day Report"
+	task :day_report => :environment do
 		Analytics.day_report
 	end
 

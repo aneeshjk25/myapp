@@ -5,15 +5,15 @@ class Quote < BaseModel
 	@time_condition = "( DATE_PART('hour',quote_timestamp) <  ? OR ( DATE_PART('hour',quote_timestamp) = ? AND  DATE_PART('minute',quote_timestamp)  <= ? ) )"
 	# this is comment
 	def self.top quote_type,date,company_id
-		hour = 4
-		minute = 30
+		hour = 5
+		minute = 0
 		Quote.order('high_price DESC').
 		find_by("quote_type = '?' AND  quote_date = ? AND company_id = ? AND  #{@time_condition}",quote_type,date,company_id,hour,hour,minute)
 	end
 
 	def self.bottom quote_type,date,company_id
-		hour = 4
-		minute = 30
+		hour = 5
+		minute = 0
 		Quote.order('low_price ASC').find_by("quote_type = '?' AND  quote_date = ? AND company_id = ? AND #{@time_condition} ",quote_type,date,company_id,hour,hour,minute)
 	end
 

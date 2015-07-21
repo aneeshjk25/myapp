@@ -1,7 +1,10 @@
 'use strict';
 /* Controllers */
 var pointsStack = []; // will be used for drawing lines on click
-
+var colors = {
+	danger : '#DD0011',
+	safe   : '#0cf900'
+}
 var intradayControllers = angular.module('intradayControllers', []);
 
 intradayControllers.controller('CompaniesViewCtrl', ['$scope', 'Company','$routeParams','$rootScope','$q',
@@ -30,11 +33,12 @@ var plotLines = [];
 $.each(formulas,function(key,value){
 	var temp = {
 		value : value,
-		color : ( key.indexOf('h') > -1 ? 'red' : 'green' ),
+		color : ( key.indexOf('h') > -1 ? colors.danger : colors.safe ),
 		width : 1,
 		label : {
 			text : "<strong>"+key + ' = '+value.toFixed(2)+"</strong>  " + moment(data.quote_date).fromNow(),
-			align : 'right'
+			align : 'right',
+			color : 'white'
 		},
 	};
 	plotLines.push(temp);
@@ -90,10 +94,18 @@ return plotLines;
 							click : addLine
 						}
 					}],
+					plotOptions : {
+						candlestick : {
+							color : colors.safe,
+							lineColor : colors.safe,
+							upColor : colors.danger,
+							upLineColor : colors.danger
+						}
+					},
 					chart : {
 						events : {
 							click : addLine
-						}		            	
+						}
 					}
 
 				};

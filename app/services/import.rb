@@ -21,7 +21,7 @@ class Import
 			yahoo_symbol =  row['yahoo_symbol']
 			company = Company.find_by yahoo_symbol: yahoo_symbol
 			if ( company == nil)
-				write_to_log "Creating company #{row.company_name}",true
+				write_to_log "Creating company ",true
 				Company.create!(row.to_hash)
 			else
 				write_to_log "Company already exists",true

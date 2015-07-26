@@ -18,6 +18,7 @@
 //= require moment/moment
 //= require underscore/underscore
 //= require highcharts/highstock
+//= require highcharts/themes/dark-unica
 //= require restangular/restangular
 //= require bootstrap-sprockets
 //= require angular-bootstrap/ui-bootstrap-tpls

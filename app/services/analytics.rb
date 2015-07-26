@@ -18,15 +18,19 @@ class Analytics
 	end
 	# email the day report
 	def self.find_performer
-		if ( Time.zone.now.hour == 5 && Time.zone.now.minute < 10 )
-			companies = Company.active
-			date = Quote.new
-			date.quote_date  = Date.today
-			best_performance = BestPerformance.new(date,companies)
-			best_performance.run(true,false).notify()
-			worst_performance = WorstPerformance.new(date,companies)
-			worst_performance.run(true,false).notify()
+		if ( Time.zone.now.hour == 5 && Time.zone.now.min < 10 )
+			find_performer_notify	
 		end
+	end
+
+	def self.find_performer_notify
+		companies = Company.active
+		date = Quote.new
+		date.quote_date  = Date.today
+		best_performance = BestPerformance.new(date,companies)
+		best_performance.run(true,false).notify()
+		worst_performance = WorstPerformance.new(date,companies)
+		worst_performance.run(true,false).notify()
 	end
 	
 	# print day report for all in database

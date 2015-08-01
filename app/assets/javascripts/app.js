@@ -13,6 +13,7 @@ var intradayApp = angular.module('intradayApp', [
   'validation',
   'validation.rule',
   'tradeController',
+  'chartController',
   'base-services',
   'trade-services',
   'company-services'
@@ -26,13 +27,17 @@ intradayApp.config(['$routeProvider',
         templateUrl: 'partials/companies-list.html',
         controller: 'CompaniesListCtrl'
       }).
-      when('/companies/:symbol', {
+      when('/companies/:symbol/:date?', {
         templateUrl: 'partials/chart.html',
         controller: 'CompaniesViewCtrl'
       }).
       when('/trades/new',{
         templateUrl: 'partials/trades/add-edit.html',
         controller: 'TradeAddController'
+      }).
+      when('/charts/create',{
+        templateUrl: 'partials/charts/create.html',
+        controller: 'ChartCreateController'
       }).
       otherwise({
         redirectTo: '/companies'

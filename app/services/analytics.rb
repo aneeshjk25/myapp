@@ -51,7 +51,7 @@ class Analytics
 	end
 
 	# test strategy for day report in database
-	def self.test_stategy
+	def self.test_strategy
 		# get all active companies
 		companies = Company.active
 		# get all distinct dates, for which quote date day wise is set
@@ -63,23 +63,32 @@ class Analytics
 		total = dates.count
 		# for every day
 		dates.each do |date|
+			# fetch the performers
 			best_performance = BestPerformance.new(date,companies).run()
 			worst_performance = WorstPerformance.new(date,companies).run()
+			# decide which is a more performer
 			if best_performance.number_till_interval > worst_performance.number_till_interval.abs
+					#selection :: stores the percentage which the stock fell or rose
 					selection = best_performance.number_till_interval
+					# the performing stock
 					stock = best_performance
 				else
 					selection = worst_performance.number_till_interval.abs
 					stock = worst_performance
 			end
+			# no perfoming stock found till interval is 0 then clear miss
 			if selection <= 0 
+				# this is very rare, or absolutely rare
 				clear_misses = clear_misses + 1
 			else
+				# stock did not perform over interval
 				if stock.number.abs <= 0
-					clear_misses = clear_misses +1
-				elsif stock.number.abs >= 1.5
+					clear_misses = clear_misses + 1
+				elsif stock.number.abs >= 1
+					# stock performed and hit the profit book point
 					hits = hits + 1
 				else
+					# stock missed the profit book point
 					misses = misses + 1
 				end
 			end

@@ -9,9 +9,9 @@ CompanyServices.factory('Company', ['$http',
     var company = {};
     var source_url = DOMAIN;
 
-    company.get = function(symbol){
+    company.get = function(symbol,date){
        //var url = 'http://chartapi.finance.yahoo.com/instrument/1.0/{{symbol}}/chartdata;type=quote;range=1d/json';
-      var remote_url = source_url+'companies/intraday_data/'+symbol;
+      var remote_url = source_url+'companies/intraday_data/'+symbol+(date ? '/'+date : '');
     	//url = url.replace('{{symbol}}',symbol)
       return $http.get(remote_url);
     }

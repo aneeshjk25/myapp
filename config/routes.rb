@@ -9,8 +9,8 @@ Rails.application.routes.draw do
    get 'frontend/send_email' => 'frontend#send_email'
    namespace :api do
     get '/companies/bounce'        => 'companies#bounce'
-    get '/companies/intraday_data/:symbol',to: 'companies#intraday_data' ,constraints: { symbol: /[^\/]+/}
-    get '/companies/cammarilla_data/:symbol',to: 'companies#cammarilla_data',constraints: { symbol: /[^\/]+/}
+    get '/companies/intraday_data/:symbol(/:date)',to: 'companies#intraday_data' ,constraints: { symbol: /[^\/]+/}
+    get '/companies/cammarilla_data/:symbol(/:date)',to: 'companies#cammarilla_data',constraints: { symbol: /[^\/]+/}
     get '/companies/toggle_status/:symbol/:status',to: 'companies#toggle_status',constraints: { symbol: /[^\/]+/}
     get '/companies/get-for-dropdown/:search', to: 'companies#get_for_dropdown',constraints: { search: /[^\/]+/}
     resources :companies

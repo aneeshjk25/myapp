@@ -28,4 +28,23 @@ class Quote < BaseModel
 	def self.get_by_date date,company_id
 		Quote.find_by(quote_date: date,company_id: company_id,quote_type: Quote.quote_types[:daily])
 	end	
+	def self.get_minute_quotes date,company_id
+		Quote.where(quote_date: date,company_id: company_id,quote_type: Quote.quote_types[:minute])
+	end	
+	def self.to_yahoo quotes
+		data = []
+		quotes.each do |quote|
+			data << quote.to_yahoo
+		end
+		data
+	end
+	def to_yahoo
+		data = {}
+		data['Timestamp'] = quote_timestamp.to_i
+		data['open']      = open_price
+		data['close'] 	  = close_price
+		data['high'] 	  = high_price
+		data['low']		  = low_price
+		return data
+	end
 end

@@ -21,9 +21,19 @@ class Api::CompaniesController < Api::BaseController
 
 	def intraday_data
 		symbol = params[:symbol]
-		remote_url = "http://chartapi.finance.yahoo.com/instrument/1.0/#{symbol}/chartdata;type=quote;range=1d/json"
-		json = getJson remote_url,true
-		render json: json
+		data = {}
+		if params[:date]
+			company = Company.find_by yahoo_symbol: params[:symbol]
+			json = Quote.get_minute_quotes(params[:date],company.id)
+			data['meta'] = {}
+			data['meta']['Company-Name'] = company.company_name
+			data['series'] = Quote.to_yahoo(json)
+		else
+			remote_url = "http://chartapi.finance.yahoo.com/instrument/1.0/#{symbol}/chartdata;type=quote;range=1d/json"
+			data = getJson remote_url,true
+		end
+		
+		render json: data
 	end
 
 	def cammarilla_data

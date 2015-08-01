@@ -16,7 +16,7 @@ nav.navbar ul.dropdown-menu{
   margin: 0!important;
   padding: 0!important;
 }
-.dropdown-toggle{
+a[dropdown-toggle]{
   cursor: pointer;
 }
 

@@ -25,6 +25,11 @@ namespace :analytics do
 		Analytics.find_performer_notify
 	end
 
+	desc "Will find the performer using yahoo quotes and alert the user using email"
+	task :test_strategy => :environment do
+		Analytics.test_strategy
+	end
+
 	desc " Will find the performer using yahoo quotes and alert the user using email,is called from cron and has time check"
 	task :pfind => :environment do
 		Analytics.find_performer

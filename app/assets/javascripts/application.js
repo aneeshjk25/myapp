@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap-sprockets
 //= require turbolinks
 //= require angular/angular
 //= require angular-route/angular-route
@@ -20,7 +21,6 @@
 //= require highcharts/highstock
 //= require highcharts/themes/dark-unica
 //= require restangular/restangular
-//= require bootstrap-sprockets
 //= require angular-bootstrap/ui-bootstrap-tpls
 //= require angular-bootstrap-datetimepicker/src/js/datetimepicker
 //= require angular-validation/dist/angular-validation

@@ -47,7 +47,7 @@ return plotLines;
 }	
 
   			// camarilla
-  			var companyChartData = Company.get($routeParams.symbol).then(function(response){
+  			var companyChartData = Company.get($routeParams.symbol,$routeParams.date).then(function(response){
   				$scope.chartdata = response;
   			});
   			var companyData      = Company.getCammarilla($routeParams.symbol).then(function(response){
@@ -141,7 +141,6 @@ intradayControllers.controller('menuController', ['$scope', '$routeParams', 'Com
 	function($scope, $routeParams, CompanyServices) {
 		$scope.showCompany = false;
 		CompanyServices.getAll().then(function(response){
-			console.log(response);
 			$scope.companies = response.companies;
 		})
 	}]);

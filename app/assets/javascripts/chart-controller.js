@@ -27,7 +27,7 @@ chartController.controller('ChartCreateController',['$scope','$location','Compan
 	$scope.processForm = function(form){
 		var isValid = form.$valid;
 		if(isValid){
-			$location.path('companies/'+$scope.chart.company.yahoo_symbol+'/'+moment($scope.chart.date).format('MM-DD-YYYY'));
+			$location.path('companies/' + $scope.chart.company.yahoo_symbol + '/' +moment($scope.chart.date).format('MM-DD-YYYY'));
 		}
 	}
 }])

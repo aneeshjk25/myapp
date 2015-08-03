@@ -1,6 +1,8 @@
 #!/bin/bash
 
 pushd ${OPENSHIFT_REPO_DIR}
+echo "precompiling assets"
+RAILS_ENV=production bundle exec rake assets:precompile
 echo "Running migrations"
 bundle exec rake db:migrate RAILS_ENV="production"
 

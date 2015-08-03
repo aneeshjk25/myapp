@@ -18,12 +18,4 @@ nav.navbar ul.dropdown-menu{
 }
 a[dropdown-toggle]{
   cursor: pointer;
-}
-
-.ng-invalid.ng-dirty{
-    .has-error .form-control;
-}
-
-label.has-error.control-label {
-    .has-error .control-label;
-}
+}	

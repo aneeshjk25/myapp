@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150716172849) do
+ActiveRecord::Schema.define(version: 20150815155819) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20150716172849) do
     t.integer  "quote_type",      default: 0, null: false
     t.datetime "quote_timestamp"
     t.string   "company_symbol"
+    t.float    "average_price"
   end
 
   add_index "quotes", ["company_id"], name: "index_quotes_on_company_id", using: :btree

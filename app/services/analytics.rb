@@ -82,9 +82,9 @@ class Analytics
 			if best_performance.profit then profits << best_performance.profit end
 			if worst_performance.profit then profits << worst_performance.profit end
 			if profits.length == 0 
-				partial_hits = partial_hits + 1
-			elsif profits.length == 1
 				misses = misses + 1
+			elsif profits.length == 1
+				partial_hits = partial_hits + 1
 			else
 				hits = hits + 1
 			end

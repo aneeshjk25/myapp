@@ -65,7 +65,6 @@ class StockPerformance
 	def find_performance_by_profit_quote_and_loss_quote(profit_book_quote,stop_loss_quote)
  		# no price rise and price drop seen after interval, never possible 
 		if(stop_loss_quote == nil && profit_book_quote == nil)
-			print "This should not happen"
 			@investment_reap = nil
 			return false
 			#throw Exception.new("Error should never happen")

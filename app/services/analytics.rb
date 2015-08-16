@@ -1,5 +1,6 @@
 class Analytics 
-
+	require 'color'
+	include Utilities
 	def percentage_rise amount,rise_amount
 			price_jump = rise_amount - amount
 			percentage_rise = price_jump/amount*100.0
@@ -83,12 +84,14 @@ class Analytics
 			if worst_performance.profit then profits << worst_performance.profit end
 			if profits.length == 0 
 				misses = misses + 1
+				print Color.red('*')
 			elsif profits.length == 1
 				partial_hits = partial_hits + 1
+				print Color.yellow('*')
 			else
 				hits = hits + 1
+				print Color.green('*')
 			end
-			print "*"
 		end
 		print " Patial hits = #{partial_hits} "
 		print " misses = #{misses} "

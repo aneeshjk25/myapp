@@ -2,6 +2,7 @@ module Utilities
   # function expect url which responds with jsonp data
   # it appends the name 'callback' to url and return json string
   # passing true returns hash object
+  # 
 	require 'csv'
   
 	def getJson url, parse = false
@@ -68,6 +69,22 @@ module Utilities
 
 	def is_number?(object)
 	  true if Float(object) rescue false
+	end
+
+	def colorize(text, color_code)
+	  "#{color_code}#{text}[0m"
+	end
+
+	def red(text)
+		colorize(text, "[31m")
+	end
+	
+	def green(text)
+		colorize(text, "[32m")
+	end	
+
+	def yellow(text)
+		colorize(text, "[33m")
 	end	
 
 end

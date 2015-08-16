@@ -1,6 +1,7 @@
 class StockPerformance
 	attr_reader :number,:stock,:number_till_interval,:stock_till_interval,:verb,:adjective,:performing_quote,:profit
 	attr_accessor :performing_quote
+	include Utilities
 	def initialize(date,companies)
 		@date = date
 		@companies = companies

@@ -16,6 +16,18 @@ class Analytics
 		worst_performance.run(true,false).to_print()
 
 	end
+
+	# print the day report from databsae
+	def self.day_report_local
+		companies = Company.active
+		date = Quote.new
+		date.quote_date  = '2015-05-29'
+		best_performance = BestPerformance.new(date,companies)
+		best_performance.run(false,true).to_print()
+		worst_performance = WorstPerformance.new(date,companies)
+		worst_performance.run(false,true).to_print()
+	end
+
 	# email the day report
 	def self.find_performer
 		if ( Time.zone.now.hour == 5 && Time.zone.now.min < 10 )
@@ -58,7 +70,7 @@ class Analytics
 		dates 	  = Quote.get_distinct_dates
 
 		misses = 0
-		clear_misses = 0
+		partial_hits = 0
 		hits = 0
 		total = dates.count
 		# for every day
@@ -66,35 +78,19 @@ class Analytics
 			# fetch the performers
 			best_performance = BestPerformance.new(date,companies).run()
 			worst_performance = WorstPerformance.new(date,companies).run()
-			# decide which is a more performer
-			if best_performance.number_till_interval > worst_performance.number_till_interval.abs
-					#selection :: stores the percentage which the stock fell or rose
-					selection = best_performance.number_till_interval
-					# the performing stock
-					stock = best_performance
-				else
-					selection = worst_performance.number_till_interval.abs
-					stock = worst_performance
-			end
-			# no perfoming stock found till interval is 0 then clear miss
-			if selection <= 0 
-				# this is very rare, or absolutely rare
-				clear_misses = clear_misses + 1
+			profits = []
+			if best_performance.profit then profits << best_performance.profit end
+			if worst_performance.profit then profits << worst_performance.profit end
+			if profits.length == 0 
+				partial_hits = partial_hits + 1
+			elsif profits.length == 1
+				misses = misses + 1
 			else
-				# stock did not perform over interval
-				if stock.number.abs <= 0
-					clear_misses = clear_misses + 1
-				elsif stock.number.abs >= 1
-					# stock performed and hit the profit book point
-					hits = hits + 1
-				else
-					# stock missed the profit book point
-					misses = misses + 1
-				end
+				hits = hits + 1
 			end
 			print "*"
 		end
-		print " clear misses = #{clear_misses} "
+		print " Patial hits = #{partial_hits} "
 		print " misses = #{misses} "
 		print " hits = #{hits} "
 		print " total = #{total}"

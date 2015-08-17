@@ -21,8 +21,8 @@ CompanyServices.factory('Company', ['$http',
       return $http.get(remote_url);
     }
 
-    company.getCammarilla = function(symbol){
-      var remote_url = source_url+'companies/cammarilla_data/'+symbol;
+    company.getCammarilla = function(symbol,date){
+      var remote_url = source_url+'companies/cammarilla_data/'+symbol+(date ? '/'+date : '');
       return $http.get(remote_url);
     }
 

@@ -1,5 +1,5 @@
 class StockPerformance
-	attr_reader :number,:stock,:number_till_interval,:stock_till_interval,:verb,:adjective,:performing_quote,:profit
+	attr_reader :number,:stock,:number_till_interval,:stock_till_interval,:verb,:adjective,:performing_quote,:profit,:investment_reap
 	attr_accessor :performing_quote
 	include Utilities
 	def initialize(date,companies)
@@ -68,7 +68,6 @@ class StockPerformance
 		if(stop_loss_quote == nil && profit_book_quote == nil)
 			@investment_reap = nil
 			return false
-			#throw Exception.new("Error should never happen")
 		end
 
 		# if price rise and price fall both happen

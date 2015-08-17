@@ -112,8 +112,8 @@ return plotLines;
 
 				if(data.series){
 					data.series.forEach(function(value){
-						var temp = _.values(value);
-						temp[0] = temp[0] * 1000 + 5*60*60*1000+30*60*1000;
+						var temp = value;
+						temp['x'] = temp['Timestamp'] * 1000 + 5*60*60*1000+30*60*1000;
 						fdata.push(temp);
 					})
 					//fdata.push()

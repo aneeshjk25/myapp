@@ -2,7 +2,6 @@ module Utilities
   # function expect url which responds with jsonp data
   # it appends the name 'callback' to url and return json string
   # passing true returns hash object
-  # 
 	require 'csv'
   
 	def getJson url, parse = false

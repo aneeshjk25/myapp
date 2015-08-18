@@ -1,4 +1,5 @@
 class Quote < BaseModel
+	before_save :before_save
 	belongs_to :company
 	enum status: [:active,:inactive]
 	enum quote_type: [:na,:minute,:hourly,:daily,:monthly]
@@ -89,4 +90,8 @@ class Quote < BaseModel
 		data['low']		  = low_price
 		return data
 	end
+	private
+	 	def before_save
+	 		self.average_price = ( self.open_price + self.close_price + self.high_price + self.low_price ) / 4 
+	 	end
 end

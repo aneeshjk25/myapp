@@ -1,0 +1,12 @@
+#!/bin/bash
+
+
+pushd ${OPENSHIFT_REPO_DIR}
+hour=$(date '+%H')
+if [ hour == 3 ]
+then
+	bundle exec rake import:hid RAILS_ENV="production"
+else
+	exit
+fi
+popd 

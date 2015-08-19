@@ -20,6 +20,11 @@ namespace :analytics do
 		Analytics.day_report
 	end
 
+	desc "Day Report Local"
+	task :drl => :environment do
+		Analytics.day_report_local
+	end
+
 	desc "Will find the performer using yahoo quotes and alert the user using email"
 	task :drn => :environment do
 		Analytics.find_performer_notify

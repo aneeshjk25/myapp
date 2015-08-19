@@ -68,6 +68,22 @@ module Utilities
 
 	def is_number?(object)
 	  true if Float(object) rescue false
+	end
+
+	def colorize(text, color_code)
+	  "#{color_code}#{text}[0m"
+	end
+
+	def red(text)
+		colorize(text, "[31m")
+	end
+	
+	def green(text)
+		colorize(text, "[32m")
+	end	
+
+	def yellow(text)
+		colorize(text, "[33m")
 	end	
 
 end

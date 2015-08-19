@@ -2,8 +2,8 @@
 /* Controllers */
 var pointsStack = []; // will be used for drawing lines on click
 var colors = {
-	danger : '#DD0011',
-	safe   : '#0cf900'
+	safe : '#DD0011',
+	danger   : '#0cf900'
 }
 var intradayControllers = angular.module('intradayControllers', []);
 
@@ -50,7 +50,7 @@ return plotLines;
   			var companyChartData = Company.get($routeParams.symbol,$routeParams.date).then(function(response){
   				$scope.chartdata = response;
   			});
-  			var companyData      = Company.getCammarilla($routeParams.symbol).then(function(response){
+  			var companyData      = Company.getCammarilla($routeParams.symbol,$routeParams.date).then(function(response){
   				$scope.historyData = response.data;
   			});
   			var promises = [];
@@ -112,8 +112,8 @@ return plotLines;
 
 				if(data.series){
 					data.series.forEach(function(value){
-						var temp = _.values(value);
-						temp[0] = temp[0] * 1000 + 5*60*60*1000+30*60*1000;
+						var temp = value;
+						temp['x'] = temp['Timestamp'] * 1000 + 5*60*60*1000+30*60*1000;
 						fdata.push(temp);
 					})
 					//fdata.push()

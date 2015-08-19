@@ -22,7 +22,7 @@ class Analytics
 	def self.day_report_local
 		companies = Company.active
 		date = Quote.new
-		date.quote_date  = '2015-05-29'
+		date.quote_date  = '2015-08-19'
 		best_performance = BestPerformance.new(date,companies)
 		best_performance.run(false,true).to_print()
 		worst_performance = WorstPerformance.new(date,companies)

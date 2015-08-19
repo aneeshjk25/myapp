@@ -34,6 +34,7 @@ class YahooQuotes
 				quote.high_price 	= q['high']
 				quote.open_price 	= q['open']
 				quote.close_price 	= q['close']
+				quote.average_price = ( q['low'] + q['high'] + q['open'] + q['close'] ) / 4 
 
 				if quote.high_price > top
 					@top = quote

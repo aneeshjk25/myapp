@@ -2,9 +2,11 @@ class StockPerformance
 	attr_reader :number,:stock,:number_till_interval,:stock_till_interval,:verb,:adjective,:performing_quote,:profit,:investment_reap
 	attr_accessor :performing_quote
 	include Utilities
-	def initialize(date,companies)
+	def initialize(date,companies,remote= false ,day_wise = true)
 		@date = date
 		@companies = companies
+		@remote = remote
+		@day_wise = day_wise
 		setup()
 	end
 
@@ -32,8 +34,10 @@ class StockPerformance
 				@number_till_interval = percentage_change
 				@stock_till_interval  = company
 				@quote_till_interval = performing_quote
-				@quote_to_invest	  = Quote.get_quote_at_interval(@date.quote_date,company.id)
-				@number_to_invest	  = @quote_to_invest[@performance_key]
+				unless @remote
+					@quote_to_invest	  = Quote.get_quote_at_interval(@date.quote_date,company.id)
+					@number_to_invest	  = @quote_to_invest[@performance_key]
+				end
 			end
 		end
 	end
@@ -101,7 +105,7 @@ class StockPerformance
 	# @return [Hash] [description]	
 	def get_consumables company,remote = false
 		to_be_returned = {}
-		if remote
+		if @remote
 			data = YahooQuotes.get(company)
 			to_be_returned['performing_quote'] = get_performing_quote_remote(data)
 		else
@@ -120,8 +124,10 @@ class StockPerformance
 	# 		till the end of the day 
 	# @return self returns the object itself			
 	def run remote = false,day_wise = true
+		@remote = remote
+		@day_wise = day_wise
 		@companies.each do |company|
-			consumable = get_consumables(company,remote)
+			consumable = get_consumables(company)
 			# print consumable.to_json
 			# throw Exception.new("woh")
 			performing_quote = consumable['performing_quote']
@@ -134,7 +140,7 @@ class StockPerformance
 				
 			end # if ony both are found
 		end # end company loop
-		if day_wise
+		if @day_wise
 			set_performing(@quote_to_invest,@number_to_invest,@stock_till_interval)
 		end
 		self
